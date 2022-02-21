@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rajishthanapp/controller/favorite_controller.dart';
@@ -17,19 +16,18 @@ class FavoriteListView extends GetView<FavoriteController> {
       backgroundColor: context.theme.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
-          children:   [
+          children: [
             Obx(() {
               return Center(
-                child:Container(
+                child: Container(
                   margin: EdgeInsets.all(10),
                   child: CupertinoSlidingSegmentedControl(
                       padding: EdgeInsets.all(4),
                       groupValue: controller.rxIndex.value,
-                      thumbColor:context.theme.primaryColor.withOpacity(0.1),
-                      backgroundColor:  context.theme.buttonColor,
+                      thumbColor: context.theme.primaryColor.withOpacity(0.1),
+                      backgroundColor: context.theme.buttonColor,
                       children: <int, Widget>{
                         0: Container(
-
                           padding: const EdgeInsets.all(0),
                           child: const Text(
                             'Images',
@@ -59,60 +57,77 @@ class FavoriteListView extends GetView<FavoriteController> {
                       onValueChanged: (value) {
                         controller.changeSegment(value);
                         if (controller.rxIndex.value == 0) {
-
-                        } else {
-
-                        }
+                        } else {}
                       }),
                 ),
               );
             }),
-            Obx((){return controller.rxIndex.value == 0 ? controller.imagesList.value.isNotEmpty?
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: controller.imagesList.length,
-              itemBuilder: (context, index) {
-                return Obx((){return controller.imagesList.value.isNotEmpty ? ImagesItem(
-                  data: controller.imagesList[index],
-                  favoriteUnFavoriteClick: (value){
-
-                  },
-                  onPressed: (value){
-                    Get.to(() => ImagesView() ,arguments: [controller.imagesList[index].id.toString()]);
-
-
-                  },):SizedBox();});
-              },
-            ):Column(
-              children: [
-                Text(" Favorite images list is empty ",style:Theme.of(context).textTheme.headline1,)
-              ],
-            ):
-            controller.videoList.value.isNotEmpty ?
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: controller.videoList.length,
-              itemBuilder: (context, index) {
-                return Obx((){return controller.videoList.value.isNotEmpty ? VideosItem(
-                  data: controller.videoList[index],
-                  favoriteUnFavoriteClick: (value){
-
-                  },
-                  onPressed: (value){
-                    Get.to(() => VideoDetailsView() ,arguments: [controller.videoList[index].id.toString()]);
-
-
-                  },):SizedBox();});
-              },
-            ): Column(
-              children: [
-                Text(" Favorite video list is empty ",style:Theme.of(context).textTheme.headline1,)
-              ],
-            );})
+            Obx(() {
+              return controller.rxIndex.value == 0
+                  ? controller.imagesList.value.isNotEmpty
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: controller.imagesList.length,
+                          itemBuilder: (context, index) {
+                            return Obx(() {
+                              return controller.imagesList.value.isNotEmpty
+                                  ? ImagesItem(
+                                      data: controller.imagesList[index],
+                                      favoriteUnFavoriteClick: (value) {},
+                                      onPressed: (value) {
+                                        Get.to(() => ImagesView(), arguments: [
+                                          controller.imagesList[index].id
+                                              .toString()
+                                        ]);
+                                      },
+                                    )
+                                  : SizedBox();
+                            });
+                          },
+                        )
+                      : Column(
+                          children: [
+                            Text(
+                              " Favorite images list is empty ",
+                              style: Theme.of(context).textTheme.headline1,
+                            )
+                          ],
+                        )
+                  : controller.videoList.value.isNotEmpty
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: controller.videoList.length,
+                          itemBuilder: (context, index) {
+                            return Obx(() {
+                              return controller.videoList.value.isNotEmpty
+                                  ? VideosItem(
+                                      data: controller.videoList[index],
+                                      favoriteUnFavoriteClick: (value) {},
+                                      onPressed: (value) {
+                                        Get.to(() => VideoDetailsView(),
+                                            arguments: [
+                                              controller.videoList[index].id
+                                                  .toString()
+                                            ]);
+                                      },
+                                    )
+                                  : SizedBox();
+                            });
+                          },
+                        )
+                      : Column(
+                          children: [
+                            Text(
+                              " Favorite video list is empty ",
+                              style: Theme.of(context).textTheme.headline1,
+                            )
+                          ],
+                        );
+            })
           ],
         ),
       ),

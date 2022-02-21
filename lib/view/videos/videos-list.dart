@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rajishthanapp/controller/videos_list_controller.dart';
@@ -14,49 +13,62 @@ class VideoListView extends GetView<VideosController> {
     return Scaffold(
       backgroundColor: context.theme.backgroundColor,
       body: Column(
-        children:   [
-
+        children: [
           Expanded(
             child: Obx(() {
               if (controller.isLoading.value)
-                return Center(child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(context.theme.buttonColor),));
+                return Center(
+                    child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(
+                      context.theme.buttonColor),
+                ));
               else {
                 return ListView.builder(
                   controller: controller.scrollController,
-
                   scrollDirection: Axis.vertical,
-
                   itemCount: controller.videoList.length,
                   itemBuilder: (context, index) {
-
                     if (index == controller.videoList.length - 1 &&
                         controller.isMoreDataAvailable.value == true) {
-                      return   Center(child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(context.theme.buttonColor),));
+                      return Center(
+                          child: CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            context.theme.buttonColor),
+                      ));
                     }
-                    return Obx((){return controller.videoList.value.isNotEmpty ? VideosItem(
-                      favoriteUnFavoriteClick: (value){
-                        controller.videoList[index].favorite=value;
-                        if(value=="0" && controller.favoriteController.videoList.isNotEmpty ){
-                          controller.favoriteController.videoList.removeWhere((item) => item.id == controller.videoList[index].id);
-                        }else{
-                          controller.favoriteController.videoList.add(controller.videoList[index]);
-                        }
-                      },
-                      data: controller.videoList[index],
-                      onPressed: (value){
-
-                        Get.to(() => VideoDetailsView() ,arguments: [controller.videoList[index].id.toString()]);
-
-                      },):SizedBox(); });
+                    return Obx(() {
+                      return controller.videoList.value.isNotEmpty
+                          ? VideosItem(
+                              favoriteUnFavoriteClick: (value) {
+                                controller.videoList[index].favorite = value;
+                                if (value == "0" &&
+                                    controller.favoriteController.videoList
+                                        .isNotEmpty) {
+                                  controller.favoriteController.videoList
+                                      .removeWhere((item) =>
+                                          item.id ==
+                                          controller.videoList[index].id);
+                                } else {
+                                  controller.favoriteController.videoList
+                                      .add(controller.videoList[index]);
+                                }
+                              },
+                              data: controller.videoList[index],
+                              onPressed: (value) {
+                                Get.to(() => VideoDetailsView(), arguments: [
+                                  controller.videoList[index].id.toString()
+                                ]);
+                              },
+                            )
+                          : SizedBox();
+                    });
                   },
                 );
               }
             }),
           )
-
         ],
       ),
-
     );
   }
 }
